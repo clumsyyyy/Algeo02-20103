@@ -1,0 +1,26 @@
+.Results{
+    min-height: 90vh;
+    background-color: white;
+    padding: 20px 100px ;
+}
+
+.container{
+    display: inline;
+    min-width: 35vw;
+    min-height: 50vh;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #a3a3a3;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}

@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Banner from './Banner';
+import { Results } from './components/Results.js'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <Banner />
+    <Results />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@1,300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@600&family=Questrial&display=swap');
 .banner{
   background-color: #282c34;
   min-height: 100vh;
@@ -14,37 +12,21 @@
 
 
 .title{
-  font-family: Exo;
+  font-family: 'Exo 2';
   font-size: 40px;
-  font-weight: bold;
 }
 
 .info-box{
   font-family: Questrial;
 }
 
-.input-button{
-  width: 200px;
-  padding: 20px;
-  border-radius: 20px;
-  border: 3px solid #003d91;
-  font-family: Exo;
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-  background-color: #003d91;
-  transition: 0.2s;
+.info{
+  font-size: 18px;
+  color: gray;
+  text-align: center;
+  justify-content: center;
 }
 
-.input-button:hover{
-  box-shadow: 0px 1px 30px 0px rgba(117,117,117,0.75);
-}
-
-.input-button:active{
-  color: #003d91;
-  background-color: white;
-  border: 3px solid white;
-}
 
 input[type = "file"]{
   display: none;
