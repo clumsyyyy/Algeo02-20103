@@ -1,32 +1,19 @@
+from sympy import *
 import numpy as np
 import sympy as sp
-from sympy.solvers import solve, solveset
-from sympy import Symbol, symbols, S
+from sympy.solvers import solve, solveset, linsolve
+
 
 # [Library Eigenvalues]
-
-
-# brief: menghasilkan matriks placeholder dari sebuah matriks
-# format lambda.I - A
-# param input: matriks dua dimensi, ukuran bebas
-
-def placeHolder(matrix):
-    x = Symbol('x')
-    idenMatrix = [[0 for i in range(len(matrix))] for i in range(len(matrix))]
-    for i in range(0, len(idenMatrix[0])):
-        idenMatrix[i][i] = x
-
-    for i in range(0, len(idenMatrix[0])):
-        for j in range(0, len(idenMatrix[0])):
-            idenMatrix[i][j] -= matrix[i][j]
-    return idenMatrix
 
 
 # brief: menghasilkan list berisi eigen values dari sebuah matriks
 # param input: matriks dua dimensi, ukuran bebas
 
 def eigenValue(matrix):
-    return solve(sp.Matrix(placeHolder(matrix)).det(), domain = S.Reals)
+    x = Symbol('x')
+    i = np.eye(len(matrix))
+    return solve(sp.Matrix(x*i - matrix).det(), domain = S.Reals)
 
 
 # brief: menghasilkan eigenvectors dari sebuah matriks
@@ -34,46 +21,37 @@ def eigenValue(matrix):
 
 def eigenVectors(matrix):
     eigenValues = eigenValue(matrix)
-    print(eigenValues)
     for a in range(len(eigenValues)):
+        SymbolArray = []
         idenMatrix = [[0 for i in range(len(matrix))] for i in range(len(matrix))]
         for i in range(0, len(idenMatrix[0])):
             idenMatrix[i][i] = eigenValues[a]
 
         for i in range(0, len(idenMatrix[0])):
-            for j in range(0, len(idenMatrix[0])):
+            idenMatrix[i].append(0)
+            for j in range(0, len(idenMatrix[0]) - 1):
                 idenMatrix[i][j] -= matrix[i][j]
 
-        print(idenMatrix)
-        homogenousMatrix = [0 for i in range(len(matrix))]
-        print(homogenousMatrix)
+        for i in range(0, len(idenMatrix[0]) - 1):
+            SymbolArray.append(Symbol(chr(i + 65)))
 
-        #TODO: SPL
 
-def Inverse(matrix):
-    cofactorMatrix = [[0 for j in range(len(matrix[0]))] for i in range(len(matrix[0]))]
-    temp = [[0 for j in range(len(matrix[0]) - 1)] for i in range(len(matrix[0]) - 1)]
+        ansSet = linsolve(sp.Matrix(idenMatrix), SymbolArray)
 
-    if sp.Matrix(matrix).det() == 0:
-        return cofactorMatrix
-    else:
-        for h in range(0, len(matrix[0])):
-            for i in range (0, len(matrix[0])):
-                rowCount = 0
-                for j in range(0, len(matrix[0])):
-                    colCount = 0
-                    for k in range(0, len(matrix[0])):
-                        if (j != h and k != i):
-                            temp[rowCount][colCount] = matrix[j][k]
-                            colCount += 1
-                    if (j != h):
-                        rowCount += 1
-                if ((h % 2 == 0 and i % 2 != 0) or (h % 2 != 0 and i % 2 == 0)):
-                    cofactorMatrix[h][i] = -1 * sp.Matrix(temp).det()
+        ruangVektor = [[0 for j in range(len(SymbolArray))] for i in range (len(SymbolArray))]
+        print(eigenValues[a])
+        for i in range(len(idenMatrix)):
+            count = 0
+            for char in SymbolArray:
+                if (str(char) in str(ansSet.args[0][i])):
+                    print(ansSet.args[0][i].subs(str(char), 1))
+                    ruangVektor[count][i] = (ansSet.args[0][i].subs(str(char), 1))
                 else:
-                    cofactorMatrix[h][i] = sp.Matrix(temp).det()
+                    ruangVektor[count][i] = 0
+                count += 1
 
-    return cofactorMatrix
+        print(ruangVektor)
+
 
 # Kode Driver
 def driver():
@@ -81,6 +59,6 @@ def driver():
     #mat = [[0 for j in range(y)]for i in range(y)]
     #for i in range(0, y):
         #mat[i] = list(map(int, input().split()))
-    print(eigenVectors([[3,0],[8,-1]]))
+    eigenVectors([[3, -2, 0], [-2,3,0], [0,0,5]])
 
 driver()
