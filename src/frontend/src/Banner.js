@@ -5,7 +5,7 @@ function Banner() {
   return (
     <div className="banner">
         <div className = "title">
-          Benis Compressor Mk69
+          Totally a Normal Name
         </div>
         <div className = "info-box">
           <p className = "info">
