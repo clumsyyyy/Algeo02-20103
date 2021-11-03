@@ -1,7 +1,10 @@
-from sympy import *
-import numpy as np
 import sympy as sp
-from sympy.solvers import solve, solveset, linsolve
+from sympy import Symbol, S
+from sympy.simplify.simplify import simplify
+from sympy.solvers import solve
+from sympy.matrices import Matrix, eye, zeros
+from sympy.solvers.pde import _simplify_variable_coeff
+
 
 # [Library Eigenvalues]
 
@@ -11,7 +14,7 @@ from sympy.solvers import solve, solveset, linsolve
 def eigenValues(A): 
     x = Symbol('x')
     I = eye(len(A.row(0)))
-    result = solve((x*I - A).det(), domain = S.Reals)
+    result = solve((x*I-A).det())
     return result[::-1] #balikan nilai eigenvalues terurut mengecil, x1 > x2 > x3 ...
 
 
@@ -27,8 +30,10 @@ def eigenVectors(A):
         # matB => Matriks 0
         I = eye(len(A.row(0)))
         matA = A - x*I
-        null = [0 for i in range (len(matA.row(0)))]
-        matB = Matrix(len(matA.row(0)),1,null) # zeros(len(matA.row(0)),1)
+        matB = zeros(len(matA.row(0)),1)
+        # null = [0 for i in range (len(matA.row(0)))]
+        # matB = Matrix(len(matA.row(0)),1,null) # zeros(len(matA.row(0)),1)
+        
 
         sol, params = matA.gauss_jordan_solve(matB)
 
@@ -43,6 +48,8 @@ def eigenVectors(A):
             sol_unique = sol.xreplace(taus_zeroes)
             result = result.col_insert(count,sol_unique)
     return (result)   
+
+
 
 # def eigenVectors(matrix):
 #     eigenValues = eigenValue(matrix)
