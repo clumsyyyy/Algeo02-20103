@@ -7,10 +7,11 @@
 .container{
     display: inline;
     min-width: 35vw;
-    min-height: 50vh;
+    min-height: auto;
+    max-width: 35vw;
     border-radius: 20px;
-    padding: 20px;
-    background-color: #a3a3a3;
+    padding: 5px;
+    background-color: #dadada;
     justify-content: center;
     text-align: center;
     display: flex;

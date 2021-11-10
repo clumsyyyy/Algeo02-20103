@@ -12,11 +12,11 @@ function Banner() {
         <div className = "info-box">
           <p className = "info">
             This is an image compression service using Singular Value Decomposition
-            <br />Bepis Epic goes Brrrr
+            <br />
           </p> 
         </div>
         <DropArea/>
-        <p className = "info">made by amer benis and newo</p>
+       
     </div>
     
   );
