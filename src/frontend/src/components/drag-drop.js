@@ -5,12 +5,8 @@ import axios from 'axios'
 
 
 
-export const DropArea = () => {    
-
-    function ImageRes(){
-        console.log(document.getElementById("preview-box").naturalHeight);
-        console.log(document.getElementById("preview-box").naturalWidth);
-    }
+export const DropArea = () => {   
+    
     const uploadFile = (imageFile) => {
         const data = new FormData()
         data.append('imageFile', imageFile)
@@ -25,13 +21,12 @@ export const DropArea = () => {
         })
     }
 
-
+    
     const buttonInput = (event) => {
         document.getElementById("Results").removeAttribute("hidden");
         document.getElementById("Results").scrollIntoView({ behavior: "smooth" });
         document.getElementById("preview-box").src = window.URL.createObjectURL(event.target.files[0])
         uploadFile(event.target.files[0])
-        setTimeout(ImageRes, 500)
     };
 
     const onFileInputChange = (event) => {
@@ -40,6 +35,7 @@ export const DropArea = () => {
             document.getElementById("Results").removeAttribute("hidden");
             document.getElementById("Results").scrollIntoView({ behavior: "smooth" });
             document.getElementById("preview-box").src = window.URL.createObjectURL(files.files[0])
+            uploadFile(files)
         }
         else{
             alert("Tidak ada file!")
@@ -48,18 +44,16 @@ export const DropArea = () => {
 
     return(
         <div className = "drag-drop">
+            <label className = "input-button">
+            <input type="file" accept = "image/*" onChange= {buttonInput}></input>
+            <i className = "fas fa-upload"></i> 
+              Select Image </label> 
             <link rel="stylesheet"
              href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
             </link>
-            <FileDrop onFrameDrop = {onFileInputChange}>
-                <label className = "input-button">
-                <input type="file" accept = "image/*" onChange= {buttonInput}></input>
-                <i className = "fas fa-upload"></i> 
-                Upload Image </label> 
-                or drag your file here
-        
-            </FileDrop>
-            
+            <FileDrop className = "drag-drop-box" onFrameDrop = {onFileInputChange}>
+            or drag your file here
+           </FileDrop> 
       </div>
     )
 }

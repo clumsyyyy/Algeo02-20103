@@ -3,23 +3,11 @@
 
 .drag-drop{
     font-family: 'Exo 2';
-    color: #003d91;
-    background-color: white;
-    padding: 20px;
-    margin-top: 30px;
-    border: 2px dashed #003d91;
-    border-radius: 20px;
-    width: 500px;
-    height: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: 0.3s;
-}
-
-.drag-drop:hover{
-    box-shadow: 0px 1px 30px 0px rgba(117,117,117,0.75);
 }
 
 .input-button{
@@ -33,7 +21,8 @@
     color: white;
     background-color: #003d91;
     transition: 0.2s;
-    margin: 20px;
+    display: flex;
+    margin: 10px;
   }
   
   .input-button:hover{
@@ -47,7 +36,7 @@
   }
 
 .input-button{
-    width: 200px;
+    width: 150px;
     padding: 20px;
     border-radius: 20px;
     border: 3px solid #003d91;
@@ -59,3 +48,22 @@
     margin: 20px;
   }
   
+.drag-drop-box{
+    width: 500px;
+    height: 200px;
+    display: flex;
+    padding: 20px;
+    margin-top: 30px;
+    border: 2px dashed #003d91;
+    border-radius: 20px;
+    background-color: white;
+    color: #003d91;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.drag-drop-box:hover{
+  box-shadow: 0px 1px 30px 0px rgba(117,117,117,0.75);
+}
