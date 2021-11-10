@@ -1,14 +1,13 @@
+import io
 from connexion import request
-from PIL import Image
+from flask import send_file
 
 def compress(body):
     """
     Compress the image with SVD.
     """
     print(body)
-    file = request.files.get('imageFile').read()
-    img = Image.open(file)
-    return {
-        "statusCode": 200,
-        "body": "Compressed"
-    }
+    file = io.BytesIO()
+    request.files.get('imageFile').save(file)
+    file.seek(0)
+    return send_file(file, as_attachment=True, attachment_filename='compressed.jpg')
