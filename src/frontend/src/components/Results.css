@@ -20,6 +20,18 @@
 }
 
 
-.slider-container{
+#eigen-slider{
     width: 30vw;
+}
+
+.slider-container{
+    display: inline-block;
+}
+
+.left-p{
+    float: left;
+}
+
+.right-p{
+    float: right;
 }

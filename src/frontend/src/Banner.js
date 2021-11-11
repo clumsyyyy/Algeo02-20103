@@ -1,5 +1,5 @@
 import './Banner.css';
-import { DropArea } from './components/drag-drop.js';
+import DropBox from './components/DropBox';
 
 function Banner() {
   return (
@@ -15,7 +15,7 @@ function Banner() {
             <br />
           </p> 
         </div>
-        <DropArea/>
+        <DropBox />
        
     </div>
     
