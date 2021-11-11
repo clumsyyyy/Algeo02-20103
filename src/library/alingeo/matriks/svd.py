@@ -8,11 +8,11 @@ def orthogonalIteration(A):
     Q, _ = jnp.linalg.qr(Q)
 
     for i in range(2):
-        Z = A @ Q   
+        Z = A @ Q
         Q, R = jnp.linalg.qr(Z)
     return Q, R
 
-def svd(A):
+def svdOrthogonalIteration(A):
     m_A, n_A = A.shape
     singularMatrix = A.copy()
     if m_A > n_A:
