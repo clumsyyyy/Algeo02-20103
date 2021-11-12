@@ -1,15 +1,14 @@
 import numpy as np
-import jax.numpy as jnp
 
 def orthogonalIteration(A):
     m,n = A.shape
     k = min(m,n)
     Q = np.random.rand(k,k)
-    Q, _ = jnp.linalg.qr(Q)
+    Q, _ = np.linalg.qr(Q)
 
     for i in range(2):
         Z = A @ Q
-        Q, R = jnp.linalg.qr(Z)
+        Q, R = np.linalg.qr(Z)
     return Q, R
 
 def svdOrthogonalIteration(A):
@@ -21,15 +20,15 @@ def svdOrthogonalIteration(A):
         singularMatrix = A.T @ A
     m_sM, n_sM = singularMatrix.shape
     Q, R = orthogonalIteration(singularMatrix)
-    singularValues = jnp.sqrt(jnp.diag(jnp.abs(R)))
+    singularValues = np.sqrt(np.diag(np.abs(R)))
     if m_A > n_A:
         U = Q
-        VT=jnp.nan_to_num(jnp.linalg.inv(jnp.diag(singularValues)),copy=False) @ U.T @ A
+        VT=np.nan_to_num(np.linalg.inv(np.diag(singularValues)),copy=False) @ U.T @ A
     elif m_A < n_A:
         VT=Q.T
-        U=A @ Q @ jnp.nan_to_num(jnp.linalg.inv(jnp.diag(singularValues)),copy=False)
+        U=A @ Q @ np.nan_to_num(np.linalg.inv(np.diag(singularValues)),copy=False)
     else: 
         U=Q.T
         VT=U
-        singularValues=jnp.square(singularValues)
+        singularValues=np.square(singularValues)
     return U, singularValues, VT
