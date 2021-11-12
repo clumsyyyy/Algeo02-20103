@@ -14,6 +14,15 @@ setup(
     zip_safe=False,
     install_requires=[
         'numpy',
+        'pillow',
     ],
+    extras_require={
+        'jax-cpu': [
+            'jax[cpu]'
+        ],
+        'gpu': [
+            'jax[gpu]'
+        ],
+    },
     python_requires='>=3.7',
 )
