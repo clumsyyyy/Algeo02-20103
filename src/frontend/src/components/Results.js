@@ -81,8 +81,8 @@ export const Results = () =>{
                     <p> Processing the image. <br/>
                     This may take a while.... </p>
                     <img id = "results-box" className = "container" alt = '' src={imgCtx.resultImg}></img>
-                    <p className = "expository-paragraph">Compression time: {parseFloat(imgCtx.compressionTime).toFixed(5)}</p>
-                    <p className = "expository-paragraph">Compression rate: {parseFloat(imgCtx.compressionRate).toFixed(5)}</p>
+                    <p className = "expository-paragraph">Compression time: {parseFloat(imgCtx.compressionTime).toFixed(3)}s</p>
+                    <p className = "expository-paragraph">Compression rate: {parseFloat(imgCtx.compressionRate).toFixed(2) * 100}%</p>
                     <div className = "download">
                         <button className = "input-button download-button" onClick={downloadFile}>
                             <i className = "fas fa-download"></i> &nbsp; Download
