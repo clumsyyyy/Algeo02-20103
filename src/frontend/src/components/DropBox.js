@@ -31,7 +31,7 @@ export const DropBox = () => {
           <label className = "input-button">
           <input type="file" accept = "image/*" onChange= {SetImage}></input>
           <i className = "fas fa-upload"></i> 
-            Select Image </label> 
+          &nbsp; Select Image </label> 
           <link rel="stylesheet"
             href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
           </link>

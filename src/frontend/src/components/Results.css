@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@600&family=Questrial&display=swap');
 .Results{
     min-height: 90vh;
     background-color: white;
-    padding: 0px 100px ;
+    padding: 40px 100px ;
+    font-family: 'Exo 2';
 }
-.containers{
+.containers, .download{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,4 +36,49 @@
 
 .right-p{
     float: right;
+}
+
+.scale{
+    border-radius: 20px;
+    min-height: 20px;
+    min-width: 30vw;
+    max-width: 30vw;
+    padding: 10px;
+    background-color: #dadada;
+    border: 3px solid #dadada;
+    font-size: 20px;
+    font-family: 'Questrial'
+}
+img[src=""] {
+    display: none;
+}
+
+.download-button{
+    width: 170px;
+}
+
+.results-div{
+    margin-top: 50px;
+}
+
+.expository-paragraph{
+    max-width: 30vw;
+    color: rgb(124, 124, 124);
+}
+
+.scale-input{
+    min-width: 30vw;
+}
+
+.footer{
+    background-color: #0e141f;
+    min-width: 98vw;
+    padding: 5vh 0.25vw;
+    margin-bottom: -6vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px 20px 0px 0px;
+    color: white;
 }

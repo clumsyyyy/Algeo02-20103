@@ -5,9 +5,7 @@ function Banner() {
   return (
     <div className="banner">
         <div className = "title">
-          Totally a Normal Title 
-          <br/>
-          for an Image Compression Web
+          ImagePrek
         </div>
         <div className = "info-box">
           <p className = "info">
