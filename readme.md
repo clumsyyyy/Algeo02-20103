@@ -2,8 +2,7 @@
 
 > Program kompresi gambar dengan memanfaatkan algoritma SVD dalam bentuk website lokal sederhana.
 >
-> > _Tugas Besar 2 IF2123 Aljabar Linier dan Geometri_ <br> > > _Aplikasi Nilai Eigen dan Vektor Eigen dalam Kompresi Gambar_ <br> > > _Semester I 2021/2022_ <br>
-
+> > _Tugas Besar 2 IF2123 Aljabar Linier dan Geometri_ <br>  _Aplikasi Nilai Eigen dan Vektor Eigen dalam Kompresi Gambar_ <br> _Semester I 2021/2022_ <br>
 ## Table of Contents
 
 - [General Info](#general-information)
@@ -19,7 +18,7 @@
 ## General Information
 
 <p> Gambar adalah salah satu bentuk media yang populer digunakan untuk menyajikan informasi. 
-Gambar banyak dipertukarkan di dunia digital melalui file-file yang mengandung gambar tersebut. 
+Gambar banyak dipertukarkan di dunia digital melalui file-file yang mengandung gambar tersebut.
 Dalam transmisi dan penyimpanan gambar digital, seringkali ditemukan masalah karena ukuran file gambar digital yang cenderung
 besar.
 Untuk mengatasi hal tersebut, suatu gambar digital dapat dikompresi menjadi file gambar yang lebih kecil. 
@@ -86,6 +85,6 @@ Give credit here.
 ## Contact
 
 Dibuat oleh Kelompok 30 - Newo Social Credit
-Amar Fadil (13520103) <a href="https://github.com/marfgold1">GitHub</a>
-Owen Christian Wijaya (13520124) <a href="https://github.com/clumsyyyy">GitHub</a>
-Fachry Dennis Heraldi (13520139) <a href="https://github.com/dennisheraldi">GitHub</a>
+- Amar Fadil (13520103) <a href="https://github.com/marfgold1">GitHub</a>
+- Owen Christian Wijaya (13520124) <a href="https://github.com/clumsyyyy">GitHub</a>
+- Fachry Dennis Heraldi (13520139) <a href="https://github.com/dennisheraldi">GitHub</a>
