@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Image Compressor
-  description: Image compressor OpenAPI implementation
+  title: ImaGeprek
+  description: Image compressor (geprek) OpenAPI implementation
   contact:
     email: 13520103@std.stei.itb.ac.id
   version: 1.0.0
@@ -26,8 +26,6 @@ paths:
             schema:
               required:
               - imageFile
-              - eigenRatio
-              - scale
               type: object
               properties:
                 imageFile:
@@ -35,12 +33,22 @@ paths:
                   format: binary
                 eigenRatio:
                   type: number
+                  default: 0.2
                   minimum: 0
                   maximum: 1
                 scale:
                   type: integer
+                  default: 100
                   maximum: 100
                   minimum: 1
+                preserveAlpha:
+                  type: boolean
+                  default: True
+                iteration:
+                  type: integer
+                  default: 2
+                  maximum: 100
+                  minimum: 2
         required: true
       responses:
         200:
@@ -64,7 +72,7 @@ components:
           description: Error message
   responses:
     RequestError:
-      description: Input invalid or not specified
+      description: Input invalid or missing
       content:
         application/json:
           schema:
@@ -74,8 +82,6 @@ components:
               $ref: '#/components/examples/InvalidInputError'
             Invalid Request Error:
               $ref: '#/components/examples/InvalidRequestError'
-            Bad Request:
-              $ref: '#/components/examples/InvalidBodyType'
     InternalServerError:
       description: Internal server error
       content:
@@ -90,27 +96,14 @@ components:
           }
   examples:
     InvalidInputError:
-      value: { "message": "Invalid Input" }
-    InvalidRequestError:
-      value: { "message": "Invalid Request" }
-    InvalidBodyType:
       value: {
-        "type": "about:blank",
-        "title": "Bad Request",
-        "detail": "Request body is not valid JSON",
+        "message": "Invalid Input",
+        "details": "<input error details>",
         "status": 400
       }
-    NoAuthToken:
-      value: {
-        "type": "about:blank",
-        "title": "Unauthorized",
-        "detail": "No authorization token provided",
-        "status": 401
-      }
-    InvalidAuthToken:
-      value: {
-        "type": "about:blank",
-        "title": "Unauthorized",
-        "detail": "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g. a bad password), or your browser doesn't understand how to supply the credentials required.",
-        "status": 401
+    InvalidRequestError:
+      value: { 
+        'message': 'Missing parameters',
+        'details': 'imageFile should exist',
+        'status': 400
       }

@@ -32,38 +32,140 @@ _Program ini dibuat sebagai pemenuhan Tugas Besar 2 IF2123 Aljabar Linier dan Ge
 
 ## Technologies Used
 
+### Languages
 - Python
-- Flask
-- Swagger
+- Javascript
+
+### Frameworks / Libraries
+- Connexion[swagger-ui] + Flask
 - ReactJS
+- Numpy / Jax Numpy
+- Pillow
 
 ## Features
 
 Fitur yang dihadirkan oleh website ini adalah:
 
-- Menerima gambar dalam berbagai format (.jpg, .png, .jpeg).
+- Menerima gambar dalam berbagai format (.jpg, .png, .jpeg, .gif, .bmp, .tiff, .psd, dst. [Support List](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html)).
 - Menampilkan gambar input, output, runtime algoritma, dan persentase hasil kompresi gambar (perubahan jumlah pixel gambar).
 - Output hasil kompresi dapat diunduh melalui website
-- Kompresi gambar tetap mempertahankan warna dari gambar asli.
-- Kompresi gambar tetap memertahankan transparansi dari gambar asli, misal untuk gambar dengan format .png dengan background transparan.
+- Kompresi gambar tetap mempertahankan warna dari gambar asli
+- Kompresi gambar tetap memertahankan transparansi dari gambar asli, misal untuk gambar dengan format .png dan background transparan
 
 ## Screenshots
 
 <!-- ![Example screenshot](./img/screenshot.png)
 If you have screenshots you'd like to share, include them here. -->
 
+## Directory Listing
+
+```
+├── README.md
+└── src
+    ├── backend
+    │   ├── api.py               [Main Operation API]
+    │   ├── app.py               [App Factory]
+    │   ├── requirements.txt     [Requirements List]
+    │   └── swagger.yml          [API spec in OAS 3.0]
+    ├── frontend
+    │   ├── package-lock.json
+    │   ├── package.json     
+    │   ├── public               [Static Assets]
+    │   └── src                  [JSX Source]
+    │       └── components       [Components]
+    └── library
+        ├── alingeo
+        │   ├── imaging
+        │   │   └── compress.py  [Compress Class]
+        │   └── matriks
+        │       ├── eigen.py     [EigenSolver Class]
+        │       └── svd.py       [SVDSolver Class]
+        └── setup.py
+```
+
+
 ## Setup
 
+Clone repository ini terlebih dahulu.
+
+### A. Frontend
 <!-- What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
 
 Proceed to describe how to install / setup one's local environment / get started with the project. -->
+### B. Library
+1. **[RECOMMENDED]** Gunakan virtual environment Python baru.
+2. Change directory ke `src/library`.
+3. Install package dengan command berikut:
+    ```
+    pip install .
+    ```
+    
+    > Untuk pengembangan, jalankan `pip install -e .` sehingga package terinstall dalam edit mode.
+4. **[OPTIONAL]** Untuk dapat menggunakan mode GPU, kamu **harus menginstall** CUDA dan cuDNN terlebih dahulu, kemudian `jaxlib`. Setelah itu, kamu dapat menginstall package dengan extras `gpu`
+    ```
+    pip install .[gpu]
+    ```
+    Perhatikan bahwa `jaxlib` hanya bisa dijalankan pada OS Linux/Mac. Untuk Windows, dapat menginstall CUDA, cuDNN dan `jaxlib` di WSL2. Cara instalasi dapat dilihat [disini](https://github.com/google/jax#pip-installation-gpu-cuda). Informasi lebih lanjut tentang JAX bisa lihat [disini](https://jax.readthedocs.io/en/latest/notebooks/quickstart.html).
+    
+    > Terdapat extras lain yaitu `jax-cpu` jika ingin menggunakan `jax` sebagai backend untuk mode CPU.
+
+### C. Backend
+1. **[RECOMMENDED]** Gunakan virtual environment yang sama dengan instalasi Library sebelumnya.
+2. Pastikan library `alingeo` sebelumnya telah terinstall.
+3. Change directory ke `src/backend`.
+3. Install requirements dengan command:
+    ```
+    pip install -r requirements.txt
+    ```
 
 ## Usage
 
-<!-- How does one go about using it?
-Provide various use cases and code examples here.
+### A. Frontend
 
-`write-your-code-here` -->
+### B. Library
+Library dapat digunakan sebagai module python yang bisa diimport oleh program lain.
+Beberapa sample program yang dapat digunakan sebagai referensi:
+1. Melakukan pencarian nilai eigen dan vektornya
+
+    ```py
+    import numpy as np
+    from alingeo.matriks.eigen import EigenSolver
+
+    solver = EigenSolver()
+    matrix = np.random(10, 10)
+    eigen_vectors, eigen_values = solver.calculate(matrix)
+    ```
+2. Melakukan dekomposisi SVD dari sebuah matriks
+
+    ```py
+    import numpy as np
+    from alingeo.matriks.svd import SVDSolver
+
+    solver = SVDSolver()
+    matrix = np.random(10,15)
+    U, sigma, VT = solver.calculate(matrix)
+    ```
+3. Melakukan kompresi gambar dengan dekomposisi SVD
+
+    ```py
+    from io import BytesIO
+    from alingeo.imaging.compress import CompressSVD
+
+    compressor = CompressSVD()
+    with open('sample.png', 'rb') as f:
+        res, _, _ = compressor.compress(f, scale=0.3)
+        res.save('sample-opt.png')
+    ```
+### C. Backend
+1. Gunakan virtual environment sebelumnya, change directory ke `src/backend`. Pastikan package `alingeo` sudah terinstall.
+2. Jalankan flask pada direktori yang sama dengan command berikut:
+    ```
+    flask run
+    ```
+3. Untuk melakukan kompresi, dapat melakukan pemanggilan pada endpoint `[POST] /v1/compress`
+4. Backend dijalankan oleh spesifikasi OAS 3.0 dan memiliki `swagger-ui` sehingga dapat membaca dokumentasi dari API. Silahkan lihat dokumentasi pada endpoint `/v1/doc` untuk informasi cara menggunakan API lebih lanjut.
+    
+    > Untuk localhost, dokumentasi API dapat diakses pada URL `http://localhost/v1/doc`
 
 <!-- ## Room for Improvement
 Include areas you believe need improvement / could be improved. Also add TODOs for future development.
