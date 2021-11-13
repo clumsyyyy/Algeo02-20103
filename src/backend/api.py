@@ -20,8 +20,13 @@ INVALID_PARAM = {
 compress_obj = CompressSVD()
 
 def compress(body):
-    """
-    Compress the image with SVD.
+    """Compress the image with SVD.
+
+    Args:
+        body (dict): The request body.
+
+    Returns:
+        app (dict): The response.
     """
     fileReq = request.files.get('imageFile')
 

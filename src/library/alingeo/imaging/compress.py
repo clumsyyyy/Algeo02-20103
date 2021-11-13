@@ -43,9 +43,12 @@ class CompressSVD(object):
 
         Args:
             imageFile (BytesIO): Image to be compressed.
+            eigenVal (int, Optional): Number of eigen value to be used. Default is None.
+            ratio (float, Optional): Ratio of eigen value to be used. Default is 0.2.
+            scale (float, Optional): Scale of the image to be used. Default is 1.
 
         Returns:
-            Image: Compressed image.
+            finimg(Image): Compressed image.
         """
         img_orig = Image.open(imageFile)
         ORIG_MODE = img_orig.mode

@@ -5,12 +5,25 @@ from contextlib import suppress
 import connexion
 
 def set_cors_headers_on_response(response):
+    """Sets CORS headers on response.
+
+    Args:
+        response (flask.Response): Response object.
+
+    Returns:
+        response (flask.Response): Response object with CORS headers.
+    """
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Headers'] = 'X-Requested-With'
     response.headers['Access-Control-Allow-Methods'] = 'OPTIONS'
     return response
 
 def create_app(test_config=None):
+    """Creates the application.
+        
+    Returns:
+        app (connexion.App): Application object.
+    """
     logging.getLogger().setLevel(logging.INFO)
     con_app = connexion.App(
         __name__,
