@@ -16,6 +16,7 @@ def set_cors_headers_on_response(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Headers'] = 'X-Requested-With'
     response.headers['Access-Control-Allow-Methods'] = 'OPTIONS'
+    response.headers['Access-Control-Expose-Headers'] = 'X-Compression-Time, X-Compression-Rate'
     return response
 
 def create_app(test_config=None):
