@@ -24,10 +24,9 @@ export const Results = () =>{
             imgCtx.setCompressionTime(null);
             
             var eigenRatio = parseInt(document.getElementById('eigen-slider').value) / 100;
-            var alphaBool = document.getElementById('alpha-checkbox').value === "on" ? true : false
+            var alphaBool = document.getElementById('alpha-checkbox').checked
 
             const data = new FormData()
-            console.log(eigenRatio, " ", scale, " ", alphaBool, " ", iteration);
             data.append('imageFile', imgCtx.image);
             data.append('eigenRatio', eigenRatio);
             data.append('scale', scale);
@@ -66,7 +65,7 @@ export const Results = () =>{
     const downloadFile = () => {
         const link = document.createElement('a');
         link.href = imgCtx.resultImg;
-        link.setAttribute('download', imgCtx.image.name);
+        link.setAttribute('download', 'compressed-' + imgCtx.image.name);
         link.click();
     }
 
@@ -103,7 +102,7 @@ export const Results = () =>{
                 <div className = "alpha-layer">
                     <label htmlFor = "alpha-checkbox">
                         Preserve alpha layer? &nbsp;&nbsp;&nbsp;
-                        <input id = "alpha-checkbox" type = "checkbox" defaultChecked></input>
+                        <input id = "alpha-checkbox" type = "checkbox" defaultChecked = "true"></input>
                     </label>
                     <p className = "expository-paragraph">(mark for images with transparent elements)</p>
                 </div>
