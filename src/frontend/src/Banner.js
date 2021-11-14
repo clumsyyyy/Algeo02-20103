@@ -5,7 +5,7 @@ function Banner() {
   return (
     <div className="banner">
         <div className = "title">
-          ImagePrek
+          ImaGeprek
         </div>
         <div className = "info-box">
           <p className = "info">
