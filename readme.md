@@ -89,7 +89,11 @@ If you have screenshots you'd like to share, include them here. -->
 Clone repository ini terlebih dahulu.
 
 ### A. Frontend
-<!-- What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
+1. **[RECOMMENDED]** Gunakan NodeJS, atau pastikan NodeJS sudah ter-_install_ di device.
+2. Pastikan sedang berada di folder `src/frontend`.
+3. Jalankan perintah `npm install` untuk memasang semua `node_modules` yang diperlukan.
+4. Tunggu proses instalasi hingga selesai. 
+<!-- What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?```
 
 Proceed to describe how to install / setup one's local environment / get started with the project. -->
 ### B. Library
@@ -121,6 +125,15 @@ Proceed to describe how to install / setup one's local environment / get started
 ## Usage
 
 ### A. Frontend
+1. Pastikan Anda berada di folder `src/frontend`
+2. Jalankan perintah `npm start`
+3. Website akan terbuka di _browser_ di port `localhost`
+4. Ada beberapa opsi antarmuka yang dapat diubah sesuai keinginan:
+    * _Slider_ rasio Eigen untuk menentukan kualitas hasil akhir kompresi (_default_ = 20)
+    * Input skala resolusi untuk menentukan perbandingan resolusi akhir kompresi dalam persentase (_default_ = 100)
+    * Input banyaknya iterasi untuk proses kompresi (_default_ = 2)
+    * _Checkbox_ untuk kompresi gambar dengan layer _alpha_ 
+5. Setelah mengisi semua opsi, gambar akan dikirim ke _backend_ untuk diproses. Apabila gambar selesai diproses, gambar akan dikirimkan ke _frontend_ beserta waktu dan persentase kompresi. Pengguna juga bisa mengunduh hasil gambar ke _local_.
 
 ### B. Library
 Library dapat digunakan sebagai module python yang bisa diimport oleh program lain.
