@@ -30,8 +30,7 @@ class SVDSolver(object):
     def calculate(self, A):
         """Calculate the SVD of the matrix and return it's SVD decomposition.
 
-        The SVD decomposition of a matrix A = U * S * V^T. 
-
+        The SVD decomposition of a matrix A = U * S * V^T.
         SVD memfaktorkan matriks A berukuran m x n menjadi matriks U, S, dan V
         sedemikian sehingga A = U x S x VT
         matriks U adalah matriks orthogonal m x m dibangun dari vektor eigen 
@@ -40,12 +39,10 @@ class SVDSolver(object):
         matriks singular kanan (A^TA)
         matriks S adalah matriks m x n yang elemen-elemen diagonal utamanya
         adalah nilai-nilai singular dari matriks A dan elemen lainnya 0
-
         Misalkan A adalah matriks m x n. Jika x1, x2, ..., xn adalah nilai-nilai
         eigen dari A^TA, maka s1 = sqrt(x1), s2 = sqrt(x2), ... sn = sqrt(xn)
         disebut nilai-nilai singular dari matriks A. Asumsi x1 >= x2 >= ... >= xn
         sehingga s1 >= s2 >= ... >= sn
-
         Fungsi SVD ini memanfaatkan orthogonal iteration. Matriks Q adalah matriks 
         yang akan diiterasi. Matriks Q ini juga akan menjadi salah satu matriks
         ortogonal antara matriks U atau matriks V bergantung dari kondisi berikut:
@@ -53,14 +50,12 @@ class SVDSolver(object):
         Jika m > n maka matriks Q adalah matriks U
         Jika m < n maka matriks Q adalah matriks V
         Jika m == n maka matriks Q adalah matriks U dan juga matriks V
-
         Jika salah satu nilai matriks singular baik kiri maupun kanan ditemukan, 
         dan nilai singularnya diketahui, maka dapat ditemukan pula matriks singular
         yang lainnya. Hal tersebut didapatkan menggunakan properti:
         A . V = U . S
         V^T = S^(-1) . U^T . A
         U = A . V . S^(-1)
-
         Langkah-langkah (Algoritma) :
         1. Misalkan matriks A adalah matriks berukuran m x n yang akan didekomposisi.
         Akan dicari terlebih dahulu matriks singular kiri atau kanannya berdasarkan 
@@ -81,11 +76,11 @@ class SVDSolver(object):
         singularMatrix = A.copy()
 
         # Get the largest size, matmul with it's transpose
-        if m_A > n_A:
+        if m_A < n_A:
             singularMatrix = self.backend.matmul(A, A.T)
         else: 
             singularMatrix = self.backend.matmul(A.T, A)
-        
+
         # Get the eigenvalues and eigenvectors
         Q, singularValues = self._eigenSolver.calcEigens(singularMatrix)
         
@@ -96,36 +91,31 @@ class SVDSolver(object):
             ),
         )
 
-        if m_A != n_A:
-            # Get the inverse of singular values (reciprocal).
-            # In case of NaN or Inf (divide by zero), set them to 1 (posinf) or 0 (neginf/nan) with nan_to_num
-            svInv = self.backend.nan_to_num(
-                self.backend.diag(1 / singularValues),
-                posinf=1,
-                neginf=0,
-            )
-            # Set the U or V^T and calculate it's U or V^T, based on the m_A and n_A size
-            if m_A > n_A:
-                U = Q
-                VT = self.backend.matmul(
-                    svInv,
-                    self.backend.matmul(
-                        U.T,
-                        A,
-                    ),
-                )
-            elif m_A < n_A:
-                VT = Q.T
-                U = self.backend.matmul(
+        # Get the inverse of singular values (reciprocal).
+        # In case of NaN, set them to 0 (nan_to_num)
+        svInv = self.backend.nan_to_num(
+            self.backend.diag(1 / singularValues),
+            posinf=1,
+            neginf=0,
+        )
+        # Set the U or V^T and calculate it's U or V^T, based on the m_A and n_A size
+        if m_A < n_A:
+            U = Q
+            VT = self.backend.matmul(
+                svInv,
+                self.backend.matmul(
+                    U.T,
                     A,
-                    self.backend.matmul(
-                        Q,
-                        svInv,
-                    ),
-                )
+                ),
+            )
         else:
-            # If equal, U and VT should be equal to eigvec^T
-            U = VT = Q.T
-            # Singular values would be a square matrix
-            singularValues = self.backend.square(singularValues)
+            VT = Q.T
+            U = self.backend.matmul(
+                A,
+                self.backend.matmul(
+                    Q,
+                    svInv,
+                ),
+            )
+
         return U, singularValues, VT

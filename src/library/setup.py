@@ -6,7 +6,7 @@ setup(
     author='Algeo02-20103',
     author_email='13520103@std.stei.itb.ac.id',
     description=''.join([
-        'Pepega',
+        'ImaGeprek',
     ]),
     url='https://github.com/clumsyyyy/Algeo02-20103',
     packages=find_packages(),
@@ -21,7 +21,7 @@ setup(
             'jax[cpu]'
         ],
         'gpu': [
-            'jax[gpu]'
+            'jax[cuda]'
         ],
     },
     python_requires='>=3.7',

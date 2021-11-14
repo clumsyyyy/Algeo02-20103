@@ -21,6 +21,7 @@ class CompressSVD(object):
             except ImportError:
                 backend = np
         self._backend = backend
+        self._default_iteration = iteration
         self._svdSolver = SVDSolver(backend, iteration)
 
     @property
@@ -30,14 +31,14 @@ class CompressSVD(object):
     def backend(self, value):
         self._backend = value
         self._svdSolver.backend = value
-    
+
     @property
     def iteration(self):
         return self._svdSolver.iteration
     @iteration.setter
     def iteration(self, value):
         self._svdSolver.iteration = value
-    
+
     def compress(
             self,
             image_file,
@@ -45,19 +46,17 @@ class CompressSVD(object):
             eigen_ratio=0.2,
             scale=1,
             preserve_alpha=True,
-            iteration=2,
+            iteration=None,
         ):
         """Compress an Image bytes with SVD algorithm.
 
         Image will be scaled by a factor of scale first before doing the compression.
         Alpha channel will not be compressed if preserve_alpha is True.
-
         Eigen values k to be used is calculated by following formula:
             k = min(m, n * BAND_LENGTH) * ratio
         Thus, compression ratio is calculated by following formula:
             cmp_ratio = ((m * k + k + k * n * BAND_LENGTH) / (m * n * BAND_LENGTH))
         Where m, n is h, w of the image and BAND_LENGTH is the number of layer the image has.
-
         In case alpha is preserved, BAND_LENGTH will ignore the alpha channel as its
         not compressed by the algorithm.
 
@@ -67,6 +66,8 @@ class CompressSVD(object):
             eigen_ratio (float, Optional): Ratio (0,1] of eigen value to be used. Default is 0.2.
             scale (float, Optional): Scale (0, 1] of the image to be used. Default is 1.
             preserve_alpha (boolean, Optional): Preserve alpha channel. Default is True.
+            iteration (int, Optional): Iteration for simultaneous power method.
+                Will self._default_iteration if None. Default is None.
 
         Returns:
             finimg, cmp_ratio, format (Image, int, str): Compressed image, its compression ratio and format.
@@ -77,7 +78,10 @@ class CompressSVD(object):
         ORIG_MODE = img_orig.mode
 
         # Set iteration
-        self.iteration = iteration
+        if iteration:
+            self.iteration = iteration
+        else:
+            self.iteration = self._default_iteration
 
         # Scale image if needed
         if scale < 1:
@@ -85,13 +89,19 @@ class CompressSVD(object):
                 math.ceil(img_orig.width*scale),
                 math.ceil(img_orig.height*scale),
             ))
-        
+
+        # If potrait, rotate image to landscape (faster processing)
+        potrait = False
+        if img_orig.size[1] > img_orig.size[0]:
+            potrait = True
+            img_orig = img_orig.rotate(90, expand=True)
+
         # Do conversion to RGB/RGBA (except L and L with alpha variants)
         if img_orig.mode in ['P', 'PA'] and 'transparency' in img_orig.info:
-          img_orig = img_orig.convert('RGBA')
+            img_orig = img_orig.convert('RGBA')
         elif img_orig.mode not in ['L', 'LA', 'La', 'RGBA', 'RGBa', 'RGB']:
-          img_orig = img_orig.convert('RGB')
-        
+            img_orig = img_orig.convert('RGB')
+
         # Convert to matrix (H,W,B), normalize the value to 0..1
         img = self._backend.array(img_orig, dtype="float32")
         img *= (1 / 255)
@@ -101,21 +111,21 @@ class CompressSVD(object):
         BAND_LENGTH = len(img_orig.mode)
         isAlpha = False
         if len(IMG_SIZE) > 2 and IMG_SIZE[2] in [2, 4]: # alpha: XA or XYZA
-          isAlpha = True
-          # Remove alpha band from calculation if alpha is preserved
-          if preserve_alpha:
-            BAND_LENGTH -= 1
-            IMG_SIZE = (
-                IMG_SIZE[0],
-                IMG_SIZE[1],
-                IMG_SIZE[2] - 1,
-            )
+            isAlpha = True
+            # Remove alpha band from calculation if alpha is preserved
+            if preserve_alpha:
+                BAND_LENGTH -= 1
+                IMG_SIZE = (
+                    IMG_SIZE[0],
+                    IMG_SIZE[1],
+                    IMG_SIZE[2] - 1,
+                )
 
-        # Flatten image (except it's alpha if preserve_alphae)
+        # Flatten image (except it's alpha if preserve_alpha)
         if isAlpha and preserve_alpha:
-          imgd = img[:,:,:BAND_LENGTH]
+            imgd = img[:,:,:BAND_LENGTH]
         else:
-          imgd = img
+            imgd = img
         imgd = imgd.reshape((
             IMG_SIZE[0],
             IMG_SIZE[1]*BAND_LENGTH
@@ -162,6 +172,10 @@ class CompressSVD(object):
 
         # Make it as PIL Image with the original (after convert) image mode
         finimg = Image.fromarray(reimgd, mode=img_orig.mode)
+
+        # If original is potrait, rotate it back
+        if potrait:
+            finimg = finimg.rotate(-90, expand=True)
 
         # Convert it back to original (before convert) image mode if converted
         # Will revert if it's not supported
