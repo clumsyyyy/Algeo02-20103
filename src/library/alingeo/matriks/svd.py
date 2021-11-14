@@ -98,9 +98,11 @@ class SVDSolver(object):
 
         if m_A != n_A:
             # Get the inverse of singular values (reciprocal).
-            # In case of NaN, set them to 0 (nan_to_num)
+            # In case of NaN or Inf (divide by zero), set them to 1 (posinf) or 0 (neginf/nan) with nan_to_num
             svInv = self.backend.nan_to_num(
                 self.backend.diag(1 / singularValues),
+                posinf=1,
+                neginf=0,
             )
             # Set the U or V^T and calculate it's U or V^T, based on the m_A and n_A size
             if m_A > n_A:
