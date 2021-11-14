@@ -11,9 +11,10 @@ export const Results = () =>{
     const uploadFile = () => { 
         var scale = parseInt(document.getElementById('scale').value);
         var iteration = parseInt(document.getElementById('iter').value);
+
         if (scale <= 0 || scale > 100 || isNaN(scale)){
             alert("Scale value must be between 1 and 100!")
-        } else if (iteration <= 0 || iteration > 100 || isNaN(iteration)){
+        } else if (iteration <= 1 || iteration > 100 || isNaN(iteration)){
             alert("Iteration value must be between 2 and 100!")
         } else if (imgCtx.isProcessing === true){
             alert("Could not compress - another process is running!");
@@ -83,7 +84,7 @@ export const Results = () =>{
                     <h3 className = "section-title">Set Eigen Ratio</h3>
                     <p className = "left-p">Low</p>
                     <p className = "right-p">High</p>
-                    <input id = "eigen-slider" type="range" min="1" max="100" step = "10" defaultValue = "20"></input>
+                    <input id = "eigen-slider" type="range" min="1" max="100" defaultValue = "20"></input>
                     <p className = "expository-paragraph"><br/>Higher Eigen Ratio means a sharper compressed image quality albeit more time to process.</p>
                 </div>
 
@@ -131,9 +132,6 @@ export const Results = () =>{
                     2021, 'Newo Social Credit'
                 </div>
             </div>
-            <script>
-                document.getElementById("alpha-checkbox").defaultChecked = "20";
-            </script>
         </div>
     )
 }

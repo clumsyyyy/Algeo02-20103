@@ -26,7 +26,7 @@ export function ImgProvider({ children }){
                 compressionTime, setCompressionTime, 
                 compressionRate, setCompressionRate,
                 isProcessing, setIsProcessing }}
-        > 
+            > 
             {children}
         </ImgContext.Provider>
     );
