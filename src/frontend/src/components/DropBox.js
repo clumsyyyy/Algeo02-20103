@@ -6,24 +6,29 @@ import { ImgContext } from './ImageProvider.js'
 export const DropBox = () => {
   const imgCtx = useContext(ImgContext);
   function SetImage(event){
-    var files = event.target.files || event.dataTransfer;
-    files = (files.files !== undefined ? files.files[0] : files[0]);
-    if (!files) {
-      alert("Tidak ada file!");
+    if (imgCtx.isProcessing === false){
+      var files = event.target.files || event.dataTransfer;
+      files = (files.files !== undefined ? files.files[0] : files[0]);
+      if (!files) {
+        alert("Tidak ada file!");
+      } else {
+        document.getElementById("Results").removeAttribute("hidden");
+        document.getElementById("Results").scrollIntoView({ behavior: "smooth" });
+        
+        let reader = new FileReader();
+        reader.onloadend = () => {
+          imgCtx.setImage(files);
+          document.getElementById("preview-box").src = reader.result;
+        }
+        reader.onerror = () => {
+            alert("Tidak bisa membaca file!");
+        }
+        reader.readAsDataURL(files);
+      }
     } else {
-      document.getElementById("Results").removeAttribute("hidden");
-      document.getElementById("Results").scrollIntoView({ behavior: "smooth" });
-      
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        imgCtx.setImage(files);
-        document.getElementById("preview-box").src = reader.result;
-      }
-      reader.onerror = () => {
-          alert("Tidak bisa membaca file!");
-      }
-      reader.readAsDataURL(files);
+      alert("Tidak bisa mengunggah, sedang memproses gambar!");
     }
+    
   }
 
   return(

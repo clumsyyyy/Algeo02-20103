@@ -8,7 +8,9 @@ export const ImgContext = createContext({
     compressionTime: null,
     setCompressionTime: null,
     compressionRate: null,
-    setCompressionRate: null
+    setCompressionRate: null,
+    isProcessing: null,
+    setIsProcessing: null
 });
 
 export function ImgProvider({ children }){
@@ -16,9 +18,14 @@ export function ImgProvider({ children }){
     const [resultImg, setResultImg] = useState(null);
     const [compressionTime, setCompressionTime] = useState(null);
     const [compressionRate, setCompressionRate] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false);
     return(
         <ImgContext.Provider
-            value = {{ image, setImage, resultImg, setResultImg, compressionTime, setCompressionTime, compressionRate, setCompressionRate }}
+            value = {{ image, setImage, 
+                resultImg, setResultImg, 
+                compressionTime, setCompressionTime, 
+                compressionRate, setCompressionRate,
+                isProcessing, setIsProcessing }}
         > 
             {children}
         </ImgContext.Provider>
