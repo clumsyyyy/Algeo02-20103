@@ -146,7 +146,7 @@ Beberapa sample program yang dapat digunakan sebagai referensi:
 
     solver = EigenSolver()
     matrix = np.random(10, 10)
-    eigen_vectors, eigen_values = solver.calculate(matrix)
+    eigen_vectors, eigen_values = solver.calcEigens(matrix)
     ```
 2. Melakukan dekomposisi SVD dari sebuah matriks
 
